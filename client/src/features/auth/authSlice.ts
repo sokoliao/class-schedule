@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login } from "./actions/login";
 import { loginError } from "./actions/login-error";
 import { loginSuccess } from "./actions/login-success";
+import { logout } from "./actions/logout";
+import { logoutError } from "./actions/logout-error";
+import { logoutSuccess } from "./actions/logout-success";
 import { signUp } from "./actions/signup";
 import { signUpError } from "./actions/signup-error";
 import { signUpSuccess } from "./actions/signup-success";
@@ -54,6 +57,24 @@ export const authSlice = createSlice({
       };
     });
     builder.addCase(signUpError, (_, action) => {
+      return {
+        isLoading: false,
+        error: `${action.payload.code} ${action.payload.message}`,
+      };
+    });
+
+    builder.addCase(logout, () => {
+      return {
+        isLoading: true,
+      };
+    });
+    builder.addCase(logoutSuccess, (_, action) => {
+      return {
+        isLoading: false,
+        message: "Logout was successful",
+      };
+    });
+    builder.addCase(logoutError, (_, action) => {
       return {
         isLoading: false,
         error: `${action.payload.code} ${action.payload.message}`,
